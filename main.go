@@ -1,16 +1,14 @@
 package main
 
-import "github.com/gin-gonic/gin"
-
-func ExibeTodosAlunos(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"id":   "1",
-		"nome": "Igor",
-	})
-}
+import (
+	"github.com/igorferrati/api-rest-Gin-Go/models"
+	"github.com/igorferrati/api-rest-Gin-Go/routes"
+)
 
 func main() {
-	r := gin.Default()
-	r.GET("/alunos", ExibeTodosAlunos)
-	r.Run()
+	models.Alunos = []models.Aluno{
+		{Nome: "Igor Ferrati", CPF: "12345678910", RG: "123456789"},
+		{Nome: "Carla Cartoman", CPF: "12345678910", RG: "123456789"},
+	}
+	routes.HndleRequests()
 }
