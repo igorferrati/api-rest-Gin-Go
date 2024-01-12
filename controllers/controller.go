@@ -47,3 +47,31 @@ func BuscaAlunoPorId(c *gin.Context) {
 
 	c.JSON(http.StatusOK, aluno)
 }
+
+func DeletaAluno(c *gin.Context) {
+	var aluno models.Aluno
+	id := c.Params.ByName("id")
+
+	database.DB.Delete(&aluno, id)
+
+	c.JSON(http.StatusOK, gin.H{"data": "Aluno deletado com sucesso!"})
+}
+
+func EditaAluno(c *gin.Context) {
+	var aluno models.Aluno
+	id := c.Params.ByName("id")
+
+	//pesquisa aluno
+	database.DB.First(&aluno, id)
+
+	//empacota corpo da requisição
+	if err := c.ShouldBindJSON(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	//edita modelo aluno com souldbindJSON aluno (atualiza campos)
+	database.DB.Model(&aluno).UpdateColumns(aluno)
+	//mensagem 200, aluno
+	c.JSON(http.StatusOK, aluno)
+}
