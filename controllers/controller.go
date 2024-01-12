@@ -6,8 +6,19 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/igorferrati/api-rest-Gin-Go/database"
 	"github.com/igorferrati/api-rest-Gin-Go/models"
+	_ "github.com/swaggo/swag/example/celler/httputil"
 )
 
+// ExibeTodosAlunos exibe todos alunos
+//
+//	@Summary      Exibir todos alunos
+//	@Description  Exibir todos alunos
+//	@Tags         get alunos
+//	@Accept       json
+//	@Produce      json
+//	@Success      200  {object}   models.Aluno
+//	@Failure      400  {object}  httputil.HTTPError
+//	@Router       /alunos [get]
 func ExibeTodosAlunos(c *gin.Context) {
 	var alunos []models.Aluno
 	database.DB.Find(&alunos)
@@ -21,6 +32,17 @@ func Saudacao(c *gin.Context) {
 	})
 }
 
+// CriaNovoAluno godoc
+//
+//	@Summary      Cria novo aluno
+//	@Description  Rota para cirar um novo aluno
+//	@Tags         criar aluno
+//	@Accept       json
+//	@Produce      json
+//	@Param        aluno    body     models.Aluno true "Aluno"
+//	@Success      200  {object}   models.Aluno
+//	@Failure      400  {object}  httputil.HTTPError
+//	@Router       /alunos [post]
 func CriaNovoAluno(c *gin.Context) {
 	var aluno models.Aluno
 	if err := c.ShouldBindJSON(&aluno); err != nil {
